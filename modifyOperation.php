@@ -51,11 +51,15 @@ if ($act == "uploadfile") {
     }
     
     $fileInfo = $_FILES['choosefile'];
-    $mes = uploadfile($fileInfo);
-    alertMes($mes); // 自定义的提示操作
-    $path = "./sourceimg/" . $fileInfo["name"];
-    
-    $updatesql = "update introduction set id='$id',description='$content',url='$path' where id=$id";
+    if ($fileInfo['error'] == 4)
+        $updatesql = "update introduction set id='$id',description='$content' where id=$id";
+    else {
+        $mes = uploadfile($fileInfo);
+        alertMes($mes); // 自定义的提示操作
+        $path = "./sourceimg/" . $fileInfo["name"];
+        
+        $updatesql = "update introduction set id='$id',description='$content',url='$path' where id=$id";
+    }
     if (mysql_query($updatesql)) {
         echo "<script>alert('修改成功');window.location.href='manage.php';</script>";
     } else {
