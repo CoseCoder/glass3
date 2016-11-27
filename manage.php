@@ -22,6 +22,13 @@ body {
 	margin: 0px;
 }
 </style>
+<script type="text/javascript">
+function fn(){
+    if(confirm("确定删除?")){
+        location.href="del.handle.php?id=<?php echo $value['id']?>";
+    }
+}
+</script>
 </head>
 <body>
 	<table width="100%" height="520" border="0" cellpadding="8"
@@ -52,9 +59,9 @@ if (isset($sign)) {
         ?>
       <tr>
 						<td bgcolor="#FFFFFF">&nbsp;<?php echo $value['id']?></td>
-						<td bgcolor="#FFFFFF"><a
-							href="del.handle.php?id=<?php echo $value['id']?>">删除</a> <a
-							href="modify.php?id=<?php echo $value['id']?>">修改</a></td>
+						<td bgcolor="#FFFFFF"><a href="javascript:if(confirm('确定删除?')){
+        location.href='del.handle.php?id=<?php echo $value['id']?>';}">删除</a> 
+        <a href="modify.php?id=<?php echo $value['id']?>">修改</a></td>
 					</tr>
         <?php
     }
