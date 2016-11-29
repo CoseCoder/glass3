@@ -45,18 +45,24 @@ body {
 						</tr>
 						<tr>
 							<td width="150">类型</td>
-							<td><label for="type">inside_our_factory</label> <input
-								type="radio" name="type" id="type" value=1
-								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']==1) echo 'checked="checked"'?> />
-								<label for="type">float_glass</label> <input type="radio"
-								name="type" id="type" value=2
-								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']==2) echo 'checked="checked"'?> />
-								<label for="type">laminded_glass</label> <input type="radio"
-								name="type" id="type" value=3
-								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']==3) echo 'checked="checked"'?> />
-								<label for="type">figure_glass</label> <input type="radio"
-								name="type" id="type" value=4
-								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']==4) echo 'checked="checked"'?> />
+							<td><label for="type">insideimg</label> <input type="radio"
+								name="type" id="type" value="insideimg"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="insideimg") echo 'checked="checked"'?> />
+								<label for="type">insidecontent</label> <input type="radio"
+								name="type" id="type" value="insidecontent"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="insidecontent") echo 'checked="checked"'?> />
+								<label for="type">floatglass</label> <input type="radio"
+								name="type" id="type" value="floatglass"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="floatglass") echo 'checked="checked"'?> />
+								<label for="type">lamindedglass</label> <input type="radio"
+								name="type" id="type" value="lamindedglass"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="lamindedglass") echo 'checked="checked"'?> />
+								<label for="type">figureglass</label> <input type="radio"
+								name="type" id="type" value="figureglass"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="figureglass") echo 'checked="checked"'?> />
+								<label for="type">packing</label> <input type="radio"
+								name="type" id="type" value="packing"
+								<?php if(isset($_COOKIE['type'])&&$_COOKIE['type']=="packing") echo 'checked="checked"'?> />
 							</td>
 						</tr>
 						<tr>
@@ -81,6 +87,8 @@ body {
 session_start();
 if (! isset($_SESSION['user']))
     header("location:login.php");
+if (isset($_COOKIE['ido']))
+    setcookie('ido', '', time() - 1);
 setcookie('id', '', time() - 1);
 setcookie("title", '', time() - 1);
 setcookie('type', '', time() - 1);

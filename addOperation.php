@@ -1,6 +1,5 @@
 ﻿<?php
 
-
 function uploadFile($fileInfo)
 {
     if ($fileInfo['error'] == UPLOAD_ERR_OK) {
@@ -27,8 +26,8 @@ if ($act == "uploadfile") {
     
     require_once 'connect.php';
     $id = $_POST['id'];
-    $title=$_POST['title'];
-    $type=$_POST['type'];
+    $title = $_POST['title'];
+    $type = $_POST['type'];
     $content = $_POST['content'];
     
     // 把传递过来的信息入库,在入库之前对所有信息进行校验
@@ -36,44 +35,55 @@ if ($act == "uploadfile") {
         echo "<script>alert('编号不能为空');window.location.href='add.php';</script>";
         exit();
     }
-    if (empty($title)) {
-        setcookie('id', $id);
-        echo "<script>alert('标题不能为空');window.location.href='add.php';</script>";
-        exit();
-    }
     if (empty($type)) {
         setcookie('id', $id);
-        setcookie('title', $title);
         echo "<script>alert('类型不能为空');window.location.href='add.php';</script>";
         exit();
     }
-    if (empty($content)) {
-        setcookie('id', $id);
-        setcookie('title', $title);
-        setcookie('type', $type);
-        echo "<script>alert('内容不能为空');window.location.href='add.php';</script>";
-        exit();
-    }
-    
-    $fileInfo = $_FILES['choosefile'];
-    $mes = uploadfile($fileInfo);
-    
-    function alertMes($mes,$id,$title,$type,$content)
-    {
-        if ($mes != 1){
+    if ($type != "insideimg" && $type != "packing") {
+        if ($type != "insidecontent") {
+            if (empty($title)) {
+                setcookie('id', $id);
+                setcookie('type', $type);
+                echo "<script>alert('标题不能为空');window.location.href='add.php';</script>";
+                exit();
+            }
+        }
+        if (empty($content)) {
             setcookie('id', $id);
             setcookie('title', $title);
             setcookie('type', $type);
-            setcookie('content', $content);
-            echo "<script type='text/javascript'>alert('{$mes}');window.location.href='add.php';</script>";
+            echo "<script>alert('内容不能为空');window.location.href='add.php';</script>";
             exit();
         }
     }
     
-    alertMes($mes,$id,$title,$type,$content); // 自定义的提示操作
-    $path = "./img/" . $fileInfo["name"];
-    
-    $insertsql = "insert introduction values('$id','$path','$title','$content','$type')";
+    $fileInfo = $_FILES['choosefile'];
+    if ($type == "insidecontent") {
+        $insertsql = "insert introduction(id,content,type) values('$id','$content','$type')";
+    } else {
+        $mes = uploadfile($fileInfo);
+
+        function alertMes($mes, $id, $title, $type, $content)
+        {
+            if ($mes != 1) {
+                setcookie('id', $id);
+                setcookie('title', $title);
+                setcookie('type', $type);
+                setcookie('content', $content);
+                echo "<script type='text/javascript'>alert('{$mes}');window.location.href='add.php';</script>";
+                exit();
+            }
+        }
+        
+        alertMes($mes, $id, $title, $type, $content); // 自定义的提示操作
+        $path = "./img/" . $fileInfo["name"];
+        if ($type == "insideimg" || $type == "packing") {
+            $insertsql = "insert introduction(id,url,type) values('$id','$path','$type')";
+        } else {
+            $insertsql = "insert introduction values('$id','$path','$title','$content','$type')";
+        }
+    }
     if (mysql_query($insertsql)) {
         echo "<script>alert('添加成功');window.location.href='manage.php';</script>";
     } else {

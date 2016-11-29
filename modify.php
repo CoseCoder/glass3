@@ -3,9 +3,16 @@ session_start();
 if (! isset($_SESSION['user']))
     header("location:login.php");
 require_once 'connect.php';
-$id = $_GET['id'];
-$query = mysql_query("select * from introduction where id=$id");
-$data = mysql_fetch_assoc($query);
+if (! empty($_GET['id'])) {
+    $id = $_GET['id'];
+    setcookie('ido', $id);
+} else {
+    $id = $_COOKIE['ido'];
+}
+if (! empty($id)) {
+    $query = mysql_query("select * from introduction where id=$id");
+    $data = mysql_fetch_assoc($query);
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -55,18 +62,24 @@ body {
 						</tr>
 						<tr>
 							<td width="150">类型</td>
-							<td><label for="type">inside_our_factory</label> <input
-								type="radio" name="type" id="type" value=1
-								<?php if($data['type']==1) echo 'checked="checked"'?> /> <label
-								for="type">float_glass</label> <input type="radio" name="type"
-								id="type" value=2
-								<?php if($data['type']==2) echo 'checked="checked"'?> /> <label
-								for="type">laminded_glass</label> <input type="radio"
-								name="type" id="type" value=3
-								<?php if($data['type']==3) echo 'checked="checked"'?> /> <label
-								for="type">figure_glass</label> <input type="radio" name="type"
-								id="type" value=4
-								<?php if($data['type']==4) echo 'checked="checked"'?> /></td>
+							<td><label for="type">insideimg</label> <input type="radio"
+								name="type" id="type" value="insideimg"
+								<?php if($data['type']=="insideimg") echo 'checked="checked"'?> />
+								<label for="type">insidecontent</label> <input type="radio"
+								name="type" id="type" value="insidecontent"
+								<?php if($data['type']=="insidecontent") echo 'checked="checked"'?> />
+								<label for="type">floatglass</label> <input type="radio"
+								name="type" id="type" value="floatglass"
+								<?php if($data['type']=="floatglass") echo 'checked="checked"'?> />
+								<label for="type">lamindedglass</label> <input type="radio"
+								name="type" id="type" value="lamindedglass"
+								<?php if($data['type']=="lamindedglass") echo 'checked="checked"'?> />
+								<label for="type">figureglass</label> <input type="radio"
+								name="type" id="type" value="figureglass"
+								<?php if($data['type']=="figureglass") echo 'checked="checked"'?> />
+								<label for="type">packing</label> <input type="radio"
+								name="type" id="type" value="packing"
+								<?php if($data['type']=="packing") echo 'checked="checked"'?> /></td>
 						</tr>
 						<tr>
 							<td width="130" align="left">内容</td>
